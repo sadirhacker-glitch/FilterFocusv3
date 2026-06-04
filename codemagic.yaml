@@ -6,7 +6,7 @@ workflows:
     scripts:
       - name: Unpack project
         script: |
-          tar -xzf FocusFilter_v3_improved.tar.gz-1
+          tar -xf FocusFilter_v3_improved.tar.gz-1
           ls -la
       - name: Build APK
         script: |
