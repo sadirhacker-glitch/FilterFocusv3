@@ -6,18 +6,44 @@ workflows:
     scripts:
       - name: Unpack project
         script: |
-          tar -xf FocusFilter_v3_improved.tar.gz-1
+          set -e
           echo "=== Current directory ==="
           pwd
           ls -la
-          echo "=== Looking for gradlew ==="
+          echo "=== Unpacking archive ==="
+          tar -xf FocusFilter_v3_improved.tar.gz-1 || tar -xzf FocusFilter_v3_improved.tar.gz-1
+          echo "=== After unpack ==="
+          ls -la
+          echo "=== Finding gradlew ==="
           find . -name "gradlew" -type f
-          echo "=== Looking for build.gradle ==="
+          echo "=== Finding build.gradle ==="
           find . -name "build.gradle" -type f
+          echo "=== Finding settings.gradle ==="
+          find . -name "settings.gradle" -type f
       - name: Build APK
         script: |
-          cd FocusFilter
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          echo "=== Looking for project root ==="
+          if [ -d "FocusFilter" ]; then
+            cd FocusFilter
+            echo "Moved into FocusFilter/ directory"
+          elif [ -d "app" ]; then
+            echo "Already in project root (app/ found)"
+          else
+            echo "No project folder found. Contents:"
+            ls -la
+            exit 1
+          fi
+          echo "=== Current directory: $(pwd)"
+          ls -la
+          if [ -f "gradlew" ]; then
+            chmod +x gradlew
+            ./gradlew assembleDebug --stacktrace
+          else
+            echo "gradlew not found! Generating..."
+            gradle wrapper
+            chmod +x gradlew
+            ./gradlew assembleDebug --stacktrace
+          fi
     artifacts:
+      - app/build/outputs/apk/debug/*.apk
       - FocusFilter/app/build/outputs/apk/debug/*.apk
