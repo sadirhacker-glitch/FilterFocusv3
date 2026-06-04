@@ -6,8 +6,10 @@ workflows:
     scripts:
       - name: Build APK
         script: |
-          pwd
-          ls -la
-          find . -name "gradlew" 2>/dev/null
+          tar -xf FocusFilter_v3_improved.tar.gz-1
+          find . -name "gradlew"
+          cd FocusFilter
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
     artifacts:
       - FocusFilter/app/build/outputs/apk/debug/*.apk
