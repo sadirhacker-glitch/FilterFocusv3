@@ -7,7 +7,13 @@ workflows:
       - name: Unpack project
         script: |
           tar -xf FocusFilter_v3_improved.tar.gz-1
+          echo "=== Current directory ==="
+          pwd
           ls -la
+          echo "=== Looking for gradlew ==="
+          find . -name "gradlew" -type f
+          echo "=== Looking for build.gradle ==="
+          find . -name "build.gradle" -type f
       - name: Build APK
         script: |
           cd FocusFilter
