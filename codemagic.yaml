@@ -4,10 +4,12 @@ workflows:
     environment:
       java: 17
     scripts:
+      - name: Unpack project
+        script: |
+          tar -xzf FocusFilter_v3_improved.tar.gz-1
+          ls -la
       - name: Build APK
         script: |
-          tar -xf FocusFilter_v3_improved.tar.gz-1
-          find . -name "gradlew"
           cd FocusFilter
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
