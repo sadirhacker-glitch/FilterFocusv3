@@ -10,6 +10,3 @@ workflows:
           ./gradlew assembleDebug --stacktrace
     artifacts:
       - app/build/outputs/apk/debug/*.apk
-    publishing:
-      artifacts:
-        - app/build/outputs/apk/debug/*.apk
